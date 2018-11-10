@@ -31,7 +31,7 @@
     "dev": "webpack --mode=development",
     "start": "rimraf ./dist && npm run dev && webpack-dev-server --open  --hot --inline",
     "lint": "eslint .",
-    "fixlint": "eslint . --fix"
+    "fixlint": "eslint ./src --fix"
   },
   "repository": {
     "type": "git",
