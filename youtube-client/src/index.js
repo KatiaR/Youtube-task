@@ -1,8 +1,7 @@
 import './scss/main.scss';
 
-
 const section = document.createElement('section');
-section.className = 'main';
+section.className = 'search-section';
 document.body.appendChild(section);
 
 const form = document.createElement('form');
@@ -17,9 +16,10 @@ const attr = {
   placeholder: 'search video',
 };
 
-const addAttr = (element, attributes) => Object.entries(attributes).forEach(
-  ([key, value]) => element.setAttribute(key, value),
-);
+const addAttr = (element, attributes) =>
+  Object.entries(attributes).forEach(([key, value]) =>
+    element.setAttribute(key, value)
+  );
 
 addAttr(input, attr);
 
@@ -35,12 +35,12 @@ btn.className = 'search-btn';
 form.appendChild(btn);
 addAttr(btn, attrbtn);
 
-const sectionVideo = document.createElement('section');
-section.className = 'video';
-section.appendChild(sectionVideo);
+const main = document.createElement('main');
+main.className = 'video-field';
+document.body.appendChild(main);
 
-
-const url = 'https://www.googleapis.com/youtube/v3/search?key=AIzaSyC-hssxGiAeTHERVfsB2sEU5bowi0Lawhg&type=video&part=snippet&maxResults=15&q=';
+const url =
+  'https://www.googleapis.com/youtube/v3/search?key=AIzaSyC-hssxGiAeTHERVfsB2sEU5bowi0Lawhg&type=video&part=snippet&maxResults=15&q=';
 
 const searchButton = document.getElementById('searchBtn');
 searchButton.addEventListener('click', () => {
@@ -48,28 +48,58 @@ searchButton.addEventListener('click', () => {
   if (inputSearch.value.length > 2) {
     fetch(`${url}${inputSearch.value}`)
       .then(response => response.json())
-      .then((data) => {
+      .then(data => {
         console.warn(data);
-        const div2 = document.createElement('div');
-        const main = document.getElementById('main');
-        /* div.innerText = JSON.stringify(data) */
+        
 
         const array = data.items;
         console.warn(array);
-        array.forEach((elem) => {
-          const div = document.createElement('div');
+        array.forEach(elem => {
+          
           const { snippet } = elem;
-          console.warn(snippet);
-          console.warn(snippet.channelTitle);
-          console.warn(snippet.description);
-          console.warn(snippet.publishedAt);
-          console.warn(snippet.title);
-          div.innerText = snippet.channelTitle;
-          const img = elem.snippet.thumbnails.default.url;
-          console.warn(img);
-          div2.appendChild(div);
+          const dataContainer = document.createElement('section');
+          dataContainer.className = 'data-container';
+          main.appendChild(dataContainer);
+
+          const divClip = document.createElement('div');
+          divClip.className = 'clip';
+          dataContainer.appendChild(divClip);
+
+          const divAuthor = document.createElement('div');
+          divAuthor.className = 'author';
+          dataContainer.appendChild(divAuthor);
+
+          const divTitle = document.createElement('div');
+          divTitle.className = 'title';
+          dataContainer.appendChild(divTitle);
+
+          const divPublicationDate = document.createElement('div');
+          divPublicationDate.className = 'publication-date';
+          dataContainer.appendChild(divPublicationDate);
+
+          const divView = document.createElement('div');
+          divView.className = 'view';
+          dataContainer.appendChild(divView);
+
+          const divDescription = document.createElement('div');
+          divDescription.className = 'description';
+          dataContainer.appendChild(divDescription);
+
+          divTitle.innerText = snippet.title;
+          divAuthor.innerText = snippet.channelTitle;
+          divDescription.innerText = snippet.description;
+          divPublicationDate.innerText = snippet.publishedAt;
+          const img = document.createElement('img');
+          const imgUrl = elem.snippet.thumbnails.high.url;
+          const attrimg = {
+            alt: 'youtube-video',
+            src: imgUrl,
+          };
+          addAttr(img, attrimg);
+          divClip.appendChild(img);
+
+          dataContainer.appendChild(divTitle);
         });
-        sectionVideo.appendChild(div2);
       });
   }
 });

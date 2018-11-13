@@ -1,8 +1,39 @@
 body {
-	background: red;
-	font-size: 20px;
-  }
-body {
-	display: flex;
-	justify-content: center;
+    display: flex;
+    flex-direction: column;
+    justify-content: center;
+    align-items: center;
+    .search-section {
+        margin: 20px;
+    }
+    main {
+        display: flex;
+        flex-wrap: wrap;
+        .data-container {
+            position: relative;
+            width: 20%;
+            padding: 10px;
+            border: 1px solid black;
+            margin: 5px;
+            display: flex;
+            flex-direction: column;
+            .clip {
+                & img {
+                    width: 100%;
+                }
+            }
+            .title {
+                position: absolute;
+                top: 20px;
+                left: 0;
+                background: green;
+                color: white;
+                text-decoration: underline;
+                display: flex;
+                justify-content: center;
+                width: 100%;
+                text-align: center;
+            }
+        }
+    }
 }
