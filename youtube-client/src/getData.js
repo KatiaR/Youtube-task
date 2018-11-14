@@ -47,7 +47,7 @@ export default function getDataFromYoutube() {
           const divView = document.createElement('div');
           divView.className = 'view';
           dataContainer.appendChild(divView);
-
+          
           const divDescription = document.createElement('div');
           divDescription.className = 'description';
           dataContainer.appendChild(divDescription);
@@ -55,9 +55,11 @@ export default function getDataFromYoutube() {
           divTitle.innerText = snippet.title;
           divAuthor.innerText = snippet.channelTitle;
           divDescription.innerText = snippet.description;
+
           const date = new Date(snippet.publishedAt);
           const twoNumberDate = number => (number < 10 ? `0${number}` : number);
           divPublicationDate.innerText = `${date.getFullYear()}-${twoNumberDate(date.getMonth() + 1)}-${twoNumberDate(date.getDate())}`;
+
           const img = document.createElement('img');
           const imgUrl = elem.snippet.thumbnails.high.url;
           const attrimg = {
@@ -66,7 +68,6 @@ export default function getDataFromYoutube() {
           };
           addAttr(img, attrimg);
           divClip.appendChild(img);
-
           dataContainer.appendChild(divTitle);
         });
         return listIds;
@@ -79,10 +80,35 @@ export default function getDataFromYoutube() {
         return fetch(urlView(listIds));
       })
       .then(response => response.json())
-      .then(({ items }) => {
+      /*.then(({ items }) => {
         items.forEach((item) => {
-          console.log(item);
+          console.log('ddsgadga', item);
+          const { statistics: { viewCount } } = item;
+          console.log(viewCount);
+          return viewCount;
+        });*/
+      .then((dataViews) => {
+        console.warn(dataViews);
+          const arrayViews = dataViews.items;
+          const listViews = arrayViews.map(item => item.statistics.viewCount);
+          console.warn(listViews);
+          return listViews;
+      })
+      .then((listViews) => {
+        const dataContainer = document.querySelectorAll('.data-container');
+        listViews.forEach((elem) => {
+          const divView = document.createElement('div');
+          setTimeout(() => {
+          divView.className = 'view';
+          dataContainer.appendChild(divView);
+          divView.innerText = elem; 
+          }, 0);
+          
         });
       });
+     /* const divView = document.querySelectorAll('view');
+        console.log('qwe123', divView);
+        divView.innerText = viewCount;
+        console.log('qwe123', divView);*/
   }
 }
