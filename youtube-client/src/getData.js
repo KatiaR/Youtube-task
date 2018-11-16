@@ -1,7 +1,14 @@
 import { addAttr } from './utils';
 
-const url = token => `https://www.googleapis.com/youtube/v3/search?key=AIzaSyC-hssxGiAeTHERVfsB2sEU5bowi0Lawhg&pageToken=${token}&type=video&part=snippet&maxResults=15&q=`;
-const urlView = ids => `https://www.googleapis.com/youtube/v3/videos?part=statistics&id=${ids.join(',')}&key=AIzaSyC-hssxGiAeTHERVfsB2sEU5bowi0Lawhg`;
+
+const url = token => 'https://www.googleapis.com/youtube/v3/search'
++ `?key=AIzaSyC-hssxGiAeTHERVfsB2sEU5bowi0Lawhg&pageToken=${
+  token
+}&type=video&part=snippet&maxResults=15&q=`;
+
+const urlView = ids => 'https://www.googleapis.com/youtube/v3/videos'
++ `?part=statistics&id=${ids.join(',')
+}&key=AIzaSyC-hssxGiAeTHERVfsB2sEU5bowi0Lawhg`;
 
 let pageToken = '';
 
@@ -15,50 +22,49 @@ export default function getDataFromYoutube() {
     fetch(`${url(pageToken)}${inputSearch.value}`)
       .then(response => response.json())
       .then((data) => {
-        console.warn(data);
         const array = data.items;
+        console.log(data);
         pageToken = data.nextPageToken;
+
         const listIds = array.map(item => item.id.videoId);
-        console.warn(array);
         const main = document.getElementsByTagName('main')[0];
         array.forEach((elem) => {
           const { snippet } = elem;
-          const dataContainer = document.createElement('section');
+          const dataContainer = document.createElement('div');
           dataContainer.id = elem.id.videoId;
           dataContainer.className = 'data-container';
           main.appendChild(dataContainer);
 
+          const fragment = document.createDocumentFragment();
+
           const divClip = document.createElement('div');
           divClip.className = 'clip';
-          dataContainer.appendChild(divClip);
+          fragment.appendChild(divClip);
 
-          const divAuthor = document.createElement('div');
+          const divAuthor = document.createElement('span');
           divAuthor.className = 'author';
-          dataContainer.appendChild(divAuthor);
+          fragment.appendChild(divAuthor);
 
-          const divTitle = document.createElement('div');
-          divTitle.className = 'title';
-          dataContainer.appendChild(divTitle);
+          const divTitle = document.createElement('h2');
+          fragment.appendChild(divTitle);
 
-          const divPublicationDate = document.createElement('div');
+          const divPublicationDate = document.createElement('span');
           divPublicationDate.className = 'publication-date';
-          dataContainer.appendChild(divPublicationDate);
+          fragment.appendChild(divPublicationDate);
 
-          const divView = document.createElement('div');
-          divView.className = 'view';
-          dataContainer.appendChild(divView);
-          
-          const divDescription = document.createElement('div');
+          const divDescription = document.createElement('p');
           divDescription.className = 'description';
-          dataContainer.appendChild(divDescription);
+          fragment.appendChild(divDescription);
 
           divTitle.innerText = snippet.title;
-          divAuthor.innerText = snippet.channelTitle;
+          divAuthor.innerText = `\uD83D\uDC68 ${snippet.channelTitle}`;
           divDescription.innerText = snippet.description;
 
           const date = new Date(snippet.publishedAt);
           const twoNumberDate = number => (number < 10 ? `0${number}` : number);
-          divPublicationDate.innerText = `${date.getFullYear()}-${twoNumberDate(date.getMonth() + 1)}-${twoNumberDate(date.getDate())}`;
+          divPublicationDate.innerText = `\uD83D\uDCC5 ${date.getFullYear()}-${twoNumberDate(
+            date.getMonth() + 1,
+          )}-${twoNumberDate(date.getDate())}`;
 
           const img = document.createElement('img');
           const imgUrl = elem.snippet.thumbnails.high.url;
@@ -68,47 +74,24 @@ export default function getDataFromYoutube() {
           };
           addAttr(img, attrimg);
           divClip.appendChild(img);
-          dataContainer.appendChild(divTitle);
+          fragment.appendChild(divTitle);
+          dataContainer.appendChild(fragment);
         });
-        return listIds;
-      })
-      .then((listIds) => {
-        console.log('listIds');
-        console.log(listIds);
-        console.log('urlView(listIds)');
-        console.log(urlView(listIds));
         return fetch(urlView(listIds));
       })
       .then(response => response.json())
-      /*.then(({ items }) => {
-        items.forEach((item) => {
-          console.log('ddsgadga', item);
-          const { statistics: { viewCount } } = item;
-          console.log(viewCount);
-          return viewCount;
-        });*/
-      .then((dataViews) => {
-        console.warn(dataViews);
-          const arrayViews = dataViews.items;
-          const listViews = arrayViews.map(item => item.statistics.viewCount);
-          console.warn(listViews);
-          return listViews;
+      .then(({ items }) => {
+        const listViews = items.map(({ id, statistics: { viewCount } }) => ({ viewCount, id }));
+        return listViews;
       })
       .then((listViews) => {
-        const dataContainer = document.querySelectorAll('.data-container');
         listViews.forEach((elem) => {
+          const dataContainer = document.getElementById(elem.id);
           const divView = document.createElement('div');
-          setTimeout(() => {
           divView.className = 'view';
+          divView.innerText = `\uD83D\uDC40 ${elem.viewCount}`;
           dataContainer.appendChild(divView);
-          divView.innerText = elem; 
-          }, 0);
-          
         });
       });
-     /* const divView = document.querySelectorAll('view');
-        console.log('qwe123', divView);
-        divView.innerText = viewCount;
-        console.log('qwe123', divView);*/
   }
 }

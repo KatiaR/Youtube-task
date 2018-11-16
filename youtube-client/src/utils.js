@@ -1,1 +1,7 @@
-export const addAttr = (element, attributes) => Object.entries(attributes).forEach(([key, value]) => element.setAttribute(key, value));
+export function addAttr(element, attributes) {
+  return Object.entries(attributes).forEach(([key, value]) => element.setAttribute(key, value));
+}
+
+export default {
+  addAttr,
+};
