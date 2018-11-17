@@ -1,50 +1,98 @@
+html {
+    display: flex;
+    justify-content: center;
+}
+
 body {
     display: flex;
     flex-direction: column;
-    justify-content: center;
     align-items: center;
     .search-section {
         margin: 20px;
     }
     main {
-        display: flex;
-		
-		justify-content: center;
-        & div {
-            margin: 5px 0;
-        }
-        .data-container {
-            position: relative;
-          width: 250px;
-            padding: 10px;
-            border: 1px solid black;
-            margin: 5px;
+        max-width: 1200px;
+        overflow: hidden;
+        .wrapper-slider {
             display: flex;
-            flex-direction: column;
-			overflow-wrap: break-word;
-			box-sizing: border-box;
-            .clip {
-                & img {
-                   width: 100%; 
-                }
+            & div {
+                margin: 5px 0;
             }
-            h2 {
-                position: absolute;
-                top: 20px;
-                left: 0;
-                background: green;
-                color: white;
-                text-decoration: underline;
+            .data-container {
+                min-width: 15vw;
+                max-width: 15vw;
+                position: relative;
+                padding: 10px;
+                border: 1px solid black;
+                margin: 5px 15px;
+                display: none;
+                flex-direction: column;
+                overflow-wrap: break-word;
+                .clip {
+                    width: 100%;
+                    display: flex;
+                    justify-content: center;
+                    & img {
+                        width: 100%;
+    					height: 100%;
+                    }
+                }
+                h2 {
+                    position: absolute;
+                    top: 20px;
+                    left: 0;
+                    background: green;
+                    color: white;
+                    text-decoration: underline;
+                    display: flex;
+                    justify-content: center;
+                    width: 100%;
+                    text-align: center;
+                    font-size: 0.7rem;
+                }
+                span {
+                    margin: 10px 0;
+                }
+			}
+			
+			.active {
+				display: flex;
+			}
+        }
+    }
+    .block-navigation {
+        display: flex;
+        justify-content: space-around;
+		width: 30%;
+
+		    .dot-navigation {
+            width: 30px;
+            height: 30px;
+            display: flex;
+            justify-content: center;
+            align-items: center;
+            border-radius: 50%;
+            background-color: yellow;
+			font-size: 0.7rem;
+			
+			&:hover {
+				cursor: pointer;
+			}
+			
+			.navigation {
                 display: flex;
                 justify-content: center;
-                width: 100%;
-				text-align: center;
-				font-size: 1rem;
+                align-items: center;
+                width: 20px;
+                height: 20px;
+                border-radius: 50%;
+                background-color: green;
+                color: white;
+            }
+			.active-dot {
+				background-color: red;
 			}
-			span {
-				margin: 10px 0;
-			}
-		}
-		
-    }
+        }
+	}
+	
 }

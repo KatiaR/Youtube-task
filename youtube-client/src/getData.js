@@ -1,5 +1,7 @@
 import { addAttr } from './utils';
+import { attHidden } from './index';
 
+export const slider = { position: 0, count: 1 };
 
 const url = token => 'https://www.googleapis.com/youtube/v3/search'
 + `?key=AIzaSyC-hssxGiAeTHERVfsB2sEU5bowi0Lawhg&pageToken=${
@@ -23,17 +25,15 @@ export default function getDataFromYoutube() {
       .then(response => response.json())
       .then((data) => {
         const array = data.items;
-        console.log(data);
         pageToken = data.nextPageToken;
-
         const listIds = array.map(item => item.id.videoId);
-        const main = document.getElementsByTagName('main')[0];
+        const sliderHtml = document.getElementsByClassName('wrapper-slider')[0];
         array.forEach((elem) => {
           const { snippet } = elem;
           const dataContainer = document.createElement('div');
           dataContainer.id = elem.id.videoId;
           dataContainer.className = 'data-container';
-          main.appendChild(dataContainer);
+          sliderHtml.appendChild(dataContainer);
 
           const fragment = document.createDocumentFragment();
 
@@ -68,6 +68,7 @@ export default function getDataFromYoutube() {
 
           const img = document.createElement('img');
           const imgUrl = elem.snippet.thumbnails.high.url;
+          // high: {url: "https://i.ytimg.com/vi/7QkCrmq3LYc/hqdefault.jpg", width: 480, height: 360}
           const attrimg = {
             alt: 'youtube-video',
             src: imgUrl,
@@ -87,11 +88,45 @@ export default function getDataFromYoutube() {
       .then((listViews) => {
         listViews.forEach((elem) => {
           const dataContainer = document.getElementById(elem.id);
+          const description = dataContainer.getElementsByClassName('description')[0];
           const divView = document.createElement('div');
           divView.className = 'view';
           divView.innerText = `\uD83D\uDC40 ${elem.viewCount}`;
-          dataContainer.appendChild(divView);
+          dataContainer.insertBefore(divView, description);
         });
+      })
+      .then(() => {
+        const pages = document.getElementsByClassName('data-container');
+        const pagesDots = Math.ceil(pages.length / slider.count);
+        const dots = document.createElement('div');
+        dots.className = 'block-navigation';
+        for (let i = 0; i < pagesDots; i += 1) {
+          const dot = document.createElement('div');
+          dot.className = 'dot-navigation';
+          const dotNum = document.createElement('span');
+          dotNum.className = 'navigation';
+          dotNum.setAttribute('data-id', i);
+          dotNum.textContent = `${i + 1}`;
+          if (i === +slider.position) {
+            dotNum.classList.add('active-dot');
+          }
+          dot.appendChild(dotNum);
+          dots.appendChild(dot);
+        }
+
+        dots.addEventListener('click', (e) => {
+          if (!(e && e.target && e.target.dataset && e.target.dataset.id)) {
+            return;
+          }
+
+          slider.position = e.target.dataset.id;  
+          const dotNum = document.getElementsByClassName('navigation');
+          [...dotNum].forEach(elem => elem.classList.remove('active-dot'));
+          e.target.classList.add('active-dot');      
+          attHidden();
+        });
+        document.body.appendChild(dots);
+        attHidden();
       });
   }
 }
