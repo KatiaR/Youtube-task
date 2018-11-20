@@ -1,5 +1,5 @@
 import { addAttr } from './utils';
-import { attHidden } from './index';
+import attHidden from './index';
 
 export const slider = { position: 0, count: 1 };
 
@@ -56,19 +56,18 @@ export default function getDataFromYoutube() {
           divDescription.className = 'description';
           fragment.appendChild(divDescription);
 
-          divTitle.innerText = snippet.title;
-          divAuthor.innerText = `\uD83D\uDC68 ${snippet.channelTitle}`;
-          divDescription.innerText = snippet.description;
+          divTitle.textContent = snippet.title;
+          divAuthor.textContent = `\uD83D\uDC68 ${snippet.channelTitle}`;
+          divDescription.textContent = snippet.description;
 
           const date = new Date(snippet.publishedAt);
           const twoNumberDate = number => (number < 10 ? `0${number}` : number);
-          divPublicationDate.innerText = `\uD83D\uDCC5 ${date.getFullYear()}-${twoNumberDate(
+          divPublicationDate.textContent = `\uD83D\uDCC5 ${date.getFullYear()}-${twoNumberDate(
             date.getMonth() + 1,
           )}-${twoNumberDate(date.getDate())}`;
 
           const img = document.createElement('img');
           const imgUrl = elem.snippet.thumbnails.high.url;
-          // high: {url: "https://i.ytimg.com/vi/7QkCrmq3LYc/hqdefault.jpg", width: 480, height: 360}
           const attrimg = {
             alt: 'youtube-video',
             src: imgUrl,
@@ -91,7 +90,7 @@ export default function getDataFromYoutube() {
           const description = dataContainer.getElementsByClassName('description')[0];
           const divView = document.createElement('div');
           divView.className = 'view';
-          divView.innerText = `\uD83D\uDC40 ${elem.viewCount}`;
+          divView.textContent = `\uD83D\uDC40 ${elem.viewCount}`;
           dataContainer.insertBefore(divView, description);
         });
       })
@@ -112,21 +111,25 @@ export default function getDataFromYoutube() {
           }
           dot.appendChild(dotNum);
           dots.appendChild(dot);
+        }        
+        
+        function controlButtons(e) {
+  if (!(e && e.target && e.target.dataset && e.target.dataset.id)) {
+    return;
+  }
+
+  slider.position = e.target.dataset.id;
+  const dotNum = document.getElementsByClassName('navigation');
+  [...dotNum].forEach(elem => elem.classList.remove('active-dot'));
+  e.target.classList.add('active-dot');
+  attHidden();
         }
-
-        dots.addEventListener('click', (e) => {
-          if (!(e && e.target && e.target.dataset && e.target.dataset.id)) {
-            return;
-          }
-
-          slider.position = e.target.dataset.id;  
-          const dotNum = document.getElementsByClassName('navigation');
-          [...dotNum].forEach(elem => elem.classList.remove('active-dot'));
-          e.target.classList.add('active-dot');      
-          attHidden();
-        });
+        dots.addEventListener('click', controlButtons);
+        
         document.body.appendChild(dots);
         attHidden();
-      });
+        
+      })
+     
   }
 }
