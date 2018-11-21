@@ -3,7 +3,6 @@ html {
     justify-content: center;
     width: 100%;
     height: 100%;
-    ;
 }
 
 body {
@@ -11,7 +10,8 @@ body {
     flex-direction: column;
     align-items: center;
     width: 95%;
-    background-color: #6C6565;
+	background-color: #6C6565;
+	overflow-x: hidden;
     .search-section {
         margin: 20px;
     }
@@ -47,10 +47,10 @@ body {
     }
     main {
         max-width: 1200px;
-        overflow: hidden;
        
         .wrapper-slider {
-            display: flex;
+			display: flex;
+			position: relative;
             & div {
                 margin: 5px 0;
             }
