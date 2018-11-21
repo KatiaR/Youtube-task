@@ -13,6 +13,8 @@ document.body.appendChild(main);
 
 function showAnswer() {
   resetPageToken();
+  slider.position = 0;
+  slider.amountContainer = 0;
   const mainBlock = document.getElementsByClassName('video-field')[0];
   const dotsBlock = document.getElementsByClassName('block-navigation')[0];
   if (mainBlock.children.length) {
@@ -52,14 +54,37 @@ export default function attHidden() {
 }
 
 const widthHandler = () => {
+  const styles = getComputedStyle(document.body);
+  const widthValue = styles.getPropertyValue('--widthBlock');
+  const [declaration] = Object.values(document.styleSheets[0].rules).filter(
+    ({ selectorText }) => selectorText === 'body main .wrapper-slider .data-container',
+  );
+  const { style: declarationStyle } = declaration;
   if (window.innerWidth < 480) {
     slider.blocksPerPage = 1;
+
+    if (widthValue !== '60vw') {
+      declarationStyle.setProperty('min-width', '60vw');
+      declarationStyle.setProperty('max-width', '60vw');
+    }
+
+    CreateNavigationDots.calculateDots();
   }
   if (window.innerWidth > 480 && window.innerWidth <= 800) {
     slider.blocksPerPage = 2;
+    if (widthValue !== '30vw') {
+      declarationStyle.setProperty('min-width', '30vw');
+      declarationStyle.setProperty('max-width', '30vw');
+    }
+    CreateNavigationDots.calculateDots();
   }
   if (window.innerWidth > 800) {
     slider.blocksPerPage = 4;
+    if (widthValue !== '15vw') {
+      declarationStyle.setProperty('min-width', '15vw');
+      declarationStyle.setProperty('max-width', '15vw');
+    }
+    CreateNavigationDots.calculateDots();
   }
 };
 widthHandler();
@@ -119,7 +144,9 @@ function switchMouse() {
   carousel.addEventListener('touchend', mouseupAndTouchend);
   function mousemoveAndTouchmove(e) {
     if (!isDown) return;
-    wrapper.style.left = `${walk}px`;
+    if (wrapper) {
+      wrapper.style.left = `${walk}px`;
+    }
     e.preventDefault();
     const x = e.pageX - carousel.offsetLeft;
     walk = x - startX;

@@ -1,6 +1,7 @@
 import { numberLastPage } from './utils';
 import attHidden from './index';
 import CreateMarkup  from './createInitialMarkup';
+import CreateNavigationDots from './createNavigationDots';
 
 
 export const slider = {
@@ -52,24 +53,6 @@ export default function getDataFromYoutube() {
       });
     })
     .then(() => {
-      const pages = document.getElementsByClassName('data-container');
-      slider.amountContainer = pages.length;
-      const pagesDots = numberLastPage(slider) + 1;
-      const dots = document.getElementsByClassName('block-navigation')[0];
-      for (let i = 0; i < pagesDots; i += 1) {
-        const dot = document.createElement('div');
-        dot.className = 'dot-navigation';
-        const dotNum = document.createElement('span');
-        dotNum.className = 'navigation';
-        dotNum.setAttribute('data-id', i);
-        dotNum.textContent = `${i + 1}`;
-        if (i === slider.position) {
-          dotNum.classList.add('active-dot');
-        }
-        dot.appendChild(dotNum);
-        dots.appendChild(dot);
-        attHidden();
-        slider.loading = false;
-      }
+      CreateNavigationDots.calculateDots();
     });
 }
