@@ -1,12 +1,7 @@
-import { numberLastPage } from './utils';
-import attHidden from './index';
-import CreateMarkup  from './createInitialMarkup';
+
+import CreateMarkup from './createInitialMarkup';
 import CreateNavigationDots from './createNavigationDots';
 
-
-export const slider = {
-  position: 0, blocksPerPage: 1, amountContainer: 0, loading: false,
-};
 
 const url = token => 'https://www.googleapis.com/youtube/v3/search'
 + `?key=AIzaSyC-hssxGiAeTHERVfsB2sEU5bowi0Lawhg&pageToken=${

@@ -11,3 +11,7 @@ export default {
   addAttr,
   numberLastPage,
 };
+
+export const slider = {
+  position: 0, blocksPerPage: 1, amountContainer: 0, loading: false,
+};

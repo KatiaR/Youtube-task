@@ -134,7 +134,8 @@ body {
             border-radius: 50%;
             background-color: #fff;
             font-size: 0.7rem;
-            margin: 0 5px;
+			margin: 0 5px;
+			background-color: lightgreen;
             &:hover {
                 cursor: pointer;
             }
@@ -147,10 +148,35 @@ body {
                 border-radius: 50%;
                 color: white;
                 user-select: none;
-            }
+			}
             .active-dot {
                 background: linear-gradient(rgb(110, 112, 120), rgb(81, 81, 86)) rgb(110, 112, 120);
             }
-        }
+		}
+        .ellipsis-navigation {
+            width: 20px;
+            height: 20px;
+            display: flex;
+            justify-content: center;
+            align-items: center;
+            border-radius: 50%;
+            background-color: #fff;
+            font-size: 0.7rem;
+			margin: 0 5px;
+			background-color: lightgreen;
+			.ellipsis {
+                display: flex;
+                justify-content: center;
+                align-items: center;
+                width: 15px;
+                height: 15px;
+                border-radius: 50%;
+                color: white;
+                user-select: none;
+			}
+		}
+		.hide-dot {
+			display: none;
+		}
     }
 }
