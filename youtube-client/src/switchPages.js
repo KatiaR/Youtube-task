@@ -15,7 +15,7 @@ export default class SwitchPages {
       [wrapper] = document.getElementsByClassName('wrapper-slider');
       isDown = true;
       carousel.classList.add('active-carousel');
-      startX = e.pageX - carousel.offsetLeft;
+      startX = (e.pageX || e.changedTouches[0].clientX) - carousel.offsetLeft;
       scrollLeft1 = carousel.scrollLeft;
     }
     carousel.addEventListener('mousedown', mousedownAndTouchstart);
@@ -54,9 +54,10 @@ export default class SwitchPages {
         wrapper.style.left = `${walk}px`;
       }
       e.preventDefault();
-      const x = e.pageX - carousel.offsetLeft;
+      const x = (e.pageX || e.changedTouches[0].clientX) - carousel.offsetLeft;
       walk = x - startX;
-      carousel.scrollLeft = scrollLeft1 - e.pageX + carousel.offsetLeft - startX;
+      carousel.scrollLeft = scrollLeft1 - (e.pageX || e.changedTouches[0].clientX)
+       + carousel.offsetLeft - startX;
     }
     carousel.addEventListener('mousemove', mousemoveAndTouchmove);
     carousel.addEventListener('touchmove', mousemoveAndTouchmove);

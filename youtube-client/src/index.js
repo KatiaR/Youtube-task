@@ -3,6 +3,7 @@ import { slider, resetPageToken } from './utils';
 import getDataFromYoutube from './getData';
 import CreateSearchField from './createSearchField';
 import CreateNavigationDots from './createNavigationDots';
+import ManageNavigationDots from './manageNavigationDots';
 import SwitchPages from './switchPages';
 
 CreateSearchField.createInitialSearch();
@@ -48,7 +49,7 @@ const widthHandler = () => {
       declarationStyle.setProperty('max-width', '60vw');
     }
 
-    CreateNavigationDots.calculateDots();
+    ManageNavigationDots.calculateDots();
   }
   if (window.innerWidth > 480 && window.innerWidth <= 800) {
     slider.blocksPerPage = 2;
@@ -56,7 +57,7 @@ const widthHandler = () => {
       declarationStyle.setProperty('min-width', '30vw');
       declarationStyle.setProperty('max-width', '30vw');
     }
-    CreateNavigationDots.calculateDots();
+    ManageNavigationDots.calculateDots();
   }
   if (window.innerWidth > 800) {
     slider.blocksPerPage = 4;
@@ -64,7 +65,7 @@ const widthHandler = () => {
       declarationStyle.setProperty('min-width', '15vw');
       declarationStyle.setProperty('max-width', '15vw');
     }
-    CreateNavigationDots.calculateDots();
+    ManageNavigationDots.calculateDots();
   }
 };
 widthHandler();
