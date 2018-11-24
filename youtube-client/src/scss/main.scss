@@ -135,7 +135,7 @@ body {
             background-color: #fff;
             font-size: 0.7rem;
 			margin: 0 5px;
-			background-color: lightgreen;
+			background-color: white;
             &:hover {
                 cursor: pointer;
             }
@@ -147,7 +147,10 @@ body {
                 height: 15px;
                 border-radius: 50%;
                 color: white;
-                user-select: none;
+				user-select: none;
+				&:hover {
+					color: black;
+				}
 			}
             .active-dot {
                 background: linear-gradient(rgb(110, 112, 120), rgb(81, 81, 86)) rgb(110, 112, 120);
@@ -163,7 +166,7 @@ body {
             background-color: #fff;
             font-size: 0.7rem;
 			margin: 0 5px;
-			background-color: lightgreen;
+			background-color: white;
 			.ellipsis {
                 display: flex;
                 justify-content: center;
@@ -171,7 +174,7 @@ body {
                 width: 15px;
                 height: 15px;
                 border-radius: 50%;
-                color: white;
+                color: black;
                 user-select: none;
 			}
 		}
