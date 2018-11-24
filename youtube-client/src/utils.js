@@ -12,6 +12,18 @@ export default {
   numberLastPage,
 };
 
+let pageToken = '';
+
+export const getPageToken = () => pageToken;
+
+export const resetPageToken = () => {
+  pageToken = '';
+};
+
+export const setPageToken = (token) => {
+  pageToken = token;
+};
+
 export const slider = {
   position: 0, blocksPerPage: 1, amountContainer: 0, loading: false,
 };

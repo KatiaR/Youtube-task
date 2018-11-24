@@ -1,6 +1,6 @@
 import './scss/main.scss';
-import { slider } from './utils';
-import getDataFromYoutube, { resetPageToken } from './getData';
+import { slider, resetPageToken } from './utils';
+import getDataFromYoutube from './getData';
 import CreateSearchField from './createSearchField';
 import CreateNavigationDots from './createNavigationDots';
 import SwitchPages from './switchPages';

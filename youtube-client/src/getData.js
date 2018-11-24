@@ -1,7 +1,6 @@
-
 import CreateMarkup from './createInitialMarkup';
-import CreateNavigationDots from './createNavigationDots';
-
+import ManageNavigationDots from './manageNavigationDots';
+import { getPageToken } from './utils';
 
 const url = token => 'https://www.googleapis.com/youtube/v3/search'
 + `?key=AIzaSyC-hssxGiAeTHERVfsB2sEU5bowi0Lawhg&pageToken=${
@@ -12,21 +11,11 @@ const urlView = ids => 'https://www.googleapis.com/youtube/v3/videos'
 + `?part=statistics&id=${ids.join(',')
 }&key=AIzaSyC-hssxGiAeTHERVfsB2sEU5bowi0Lawhg`;
 
-let pageToken = '';
-
-export const resetPageToken = () => {
-  pageToken = '';
-};
-
-export const setPageToken = (token) => {
-  pageToken = token;
-};
-
 export default function getDataFromYoutube() {
   const inputSearch = document.getElementById('search');
   if (inputSearch.value.length < 2) { return; }
 
-  fetch(`${url(pageToken)}${inputSearch.value}`)
+  fetch(`${url(getPageToken())}${inputSearch.value}`)
     .then(response => response.json())
     .then((data) => {
       const listIds = CreateMarkup.createInitialMarkup(data);
@@ -48,6 +37,6 @@ export default function getDataFromYoutube() {
       });
     })
     .then(() => {
-      CreateNavigationDots.calculateDots();
+      ManageNavigationDots.calculateDots();
     });
 }

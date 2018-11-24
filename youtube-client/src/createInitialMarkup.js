@@ -1,5 +1,4 @@
-import { setPageToken } from './getData';
-import { addAttr } from './utils';
+import { addAttr, setPageToken } from './utils';
 
 export default class CreateMarkup {
   static createInitialMarkup(data) {
